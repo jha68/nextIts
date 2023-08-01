@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<mapper namespace="CE00102S_20230628181831">
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="loadpage_SEL2">/*temp datasets*/   
+select '웹사이트 이용문의' as title       
+        , 'TEL111' as tel       
+        , 'EMAIL111' as email       
+        , 'FAX111' as fax       
+from dual       
+union all       
+select '입찰문의' as title       
+        , 'TEL222' as tel       
+        , 'EMAIL222' as email       
+        , 'FAX222' as fax       
+from dual       
+union all       
+select '보험 계약 문의' as title       
+        , 'TEL333' as tel       
+        , 'EMAIL333' as email       
+        , 'FAX333' as fax       
+from dual    
+    
+/*    
+SELECT    
+    TASK_ID,    
+    TASK_NM as TITLE,    
+    TASK_TELNO as TEL,    
+    TASK_EML_ADDR as EMAIL,    
+    TASK_FXNO as FAX    
+FROM    
+    TASK_CHARGE   
+*/</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="telLoad_SEL1">SELECT                      
+    TASK_ID as TASK_ID,                     
+    TASK_NM as TITLE,   
+    formatPhoneNumber(TASK_TELNO) as TEL,                      
+    TASK_EML_ADDR as EMAIL,                      
+    TASK_FXNO as FAX                 
+FROM                      
+    TASK_CHARGE</select>
+</mapper>
+
+

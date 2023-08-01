@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<mapper namespace="CC00101S_20230615111111">
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="selectOverlapId_OVER">select  count(*) as CNT     
+from    USER      
+where   USER_ID = lower(#{USER_ID})</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="Login_SEL2">select  
+    count(*) as CNT, 
+    LGN_FAIL_NMTM  
+from USER  
+where USER_ID = #{USER_ID}</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="Login_SEL8">select count(*) as CNT   
+from USER 
+where user_id = #{USER_ID}     
+and pswd = #{PSWD}</select>
+  <update parameterType="java.util.HashMap" id="Login_UPD13">Update bidding.USER  set  LAST_MDFCN_DT=SYSDATE() , LAST_MDFR_ID=#{LAST_MDFR_ID}  , LAST_MDFR_IP_ADDR=#{LAST_MDFR_IP_ADDR}  , LGN_FAIL_NMTM=LGN_FAIL_NMTM +1 where USER_ID=#{USER_ID}</update>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="Login_SEL14">SELECT      
+    U.USER_ID    
+    ,U.AUTHRT_ID     
+    ,U.OGNZ_ID   
+    ,UD.PIC_NM   
+    ,UD.PIC_JBGD_NM  
+    ,UD.PIC_DEPT_NM  
+    ,UD.PIC_EML_ADDR  
+    ,UD.EML_RCPTN_AGRE_YN  
+    ,formatPhoneNumber(UD.PIC_TELNO) AS PIC_TELNO 
+    ,UD.SMS_RCPTN_AGRE_YN  
+    ,UD.BPLC_NM  
+    ,UD.BPLC_ZIP  
+    ,UD.BPLC_ADDR  
+    ,UD.BPLC_DADDR  
+    ,UD.RPRS_URL_ADDR  
+    ,formatPhoneNumber(UD.RPRS_TELNO) AS  RPRS_TELNO 
+FROM USER U    
+INNER JOIN USER_DETAIL UD ON    
+UD.USER_ID = U.USER_ID     
+WHERE U.USER_ID = #{USER_ID}         
+AND U.PSWD = #{PSWD}</select>
+  <update parameterType="java.util.HashMap" id="Login_UPD16">Update USER  set  LAST_LGN_DT=SYSDATE() where USER_ID=#{USER_ID}</update>
+</mapper>

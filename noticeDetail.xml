@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<mapper namespace="CG00102S_20230628181835">
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="loadpage_SEL8">select #{USER_ID} AS USER_ID   
+from DUAL</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="ntcCU_SEL2">select     
+    getUniId() AS BBS_ID   
+FROM DUAL</select>
+  <update parameterType="java.util.HashMap" id="ntcCU_UNI4_UPD">Update NOTICE  set  LAST_MDFCN_DT=SYSDATE() , LAST_MDFR_ID=#{LAST_MDFR_ID}  , INQ_CNT=#{INQ_CNT}  , BBS_TTL=#{BBS_TTL}  , BBS_CN=#{BBS_CN}  , FIX_YN=#{FIX_YN}  where BBS_ID=#{BBS_ID}</update>
+  <insert parameterType="java.util.HashMap" id="ntcCU_UNI4_INS">Insert into NOTICE (FRST_REG_DT, FRST_RGTR_ID, LAST_MDFCN_DT, LAST_MDFR_ID, INQ_CNT, ATCH_FILE_ID, BBS_TTL, BBS_ID, BBS_CN, FIX_YN)  values(SYSDATE(), #{FRST_RGTR_ID} , SYSDATE(), #{LAST_MDFR_ID} , #{INQ_CNT} , #{ATCH_FILE_ID} , #{BBS_TTL} , #{BBS_ID} , #{BBS_CN} , #{FIX_YN} )</insert>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="loadNotice_SEL2">SELECT     
+    BBS_ID,     
+    BBS_TTL,     
+    BBS_CN,     
+    FIX_YN,     
+    INQ_CNT,    
+    ATCH_FILE_ID,     
+    DATE_FORMAT(FRST_REG_DT, '%Y-%m-%d') as FRST_REG_DT,  
+    FRST_RGTR_ID,     
+    LAST_MDFCN_DT,     
+    LAST_MDFR_ID     
+FROM     
+    NOTICE     
+where BBS_ID = #{BBS_ID}</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="loadNotice_SEL4">SELECT   
+    '' AS TMPR_FILE_ID,             
+    FILE_ID,               
+    FILE_SN,               
+    FILE_NM,               
+    FILE_PATH_NM,       
+    CONCAT(FILE_SZ / 1024, ' KB') AS FILE_SZ,               
+    REG_SE_CD,               
+    REG_SE_NM,               
+    RGTR_SE_CD,               
+    RGTR_SE_NM,               
+    FILE_TTL,               
+    FILE_EXPN,               
+    DATE_FORMAT(A.FRST_REG_DT, '%Y-%m-%d') as FRST_REG_DT,             
+    A.FRST_RGTR_ID,               
+    A.LAST_MDFCN_DT,               
+    A.LAST_MDFR_ID               
+FROM               
+    FILE A LEFT JOIN NOTICE B              
+ON    A.FILE_ID = B.ATCH_FILE_ID           
+where A.FILE_ID = #{ATCH_FILE_ID}</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="wow_SEL17">select concat(CD_NM,#{YR},'CG/',#{BBS_ID}, '/') as FILE_PATH_NM     
+from CODE     
+where UP_CD = 'PATH'     
+and CD = 'TOP'</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="wow_SEL15">select COUNT(*) as CNT from FILE  
+where FILE_ID = #{FILE_ID}</select>
+  <update parameterType="java.util.HashMap" id="wow_UPD22">Update REFERENCE  set  LAST_MDFCN_DT=NOW() , LAST_MDFR_ID=#{LAST_MDFR_ID}  , LAST_MDFR_IP_ADDR=#{LAST_MDFR_IP_ADDR}  , ATCH_FILE_ID=#{ATCH_FILE_ID}  where BBS_ID=#{BBS_ID}</update>
+  <update parameterType="java.util.HashMap" id="wow_UPD38">Update NOTICE  set  LAST_MDFCN_DT=NOW() , LAST_MDFR_ID=#{LAST_MDFR_ID}  , LAST_MDFR_IP_ADDR=#{LAST_MDFR_IP_ADDR}  , ATCH_FILE_ID=#{ATCH_FILE_ID}  where BBS_ID=#{BBS_ID}</update>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="fileUpload_SEL17">select concat(CD_NM,#{YR},'/CG/',#{BBS_ID}, '/') as FILE_PATH_NM     
+from CODE     
+where UP_CD = 'PATH'     
+and CD = 'TOP'</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="fileUpload_SEL15">select COUNT(*) as CNT from FILE  
+where FILE_ID = #{FILE_ID}</select>
+  <update parameterType="java.util.HashMap" id="fileUpload_UPD22">Update NOTICE  set  LAST_MDFCN_DT=NOW() , LAST_MDFR_ID=#{LAST_MDFR_ID}  , LAST_MDFR_IP_ADDR=#{LAST_MDFR_IP_ADDR}  , ATCH_FILE_ID=#{ATCH_FILE_ID}  where BBS_ID=#{BBS_ID}</update>
+  <update parameterType="java.util.HashMap" id="fileUpload_UPD24">Update NOTICE  set  LAST_MDFCN_DT=NOW() , LAST_MDFR_ID=#{LAST_MDFR_ID}  , LAST_MDFR_IP_ADDR=#{LAST_MDFR_IP_ADDR}  , ATCH_FILE_ID=#{ATCH_FILE_ID}  where BBS_ID=#{BBS_ID}</update>
+  <delete parameterType="java.util.HashMap" id="ntcDel_DEL4">Delete from NOTICE  where BBS_ID=#{BBS_ID}</delete>
+  <delete parameterType="java.util.HashMap" id="ntcDel_DEL18">Delete from FILE  where FILE_ID=#{FILE_ID}</delete>
+</mapper>
+
+

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<mapper namespace="CG00101S_20230628181834">
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="noticePaging_SEL2">SELECT  
+    Z.ROWNUM,  
+    Z.BBS_ID,  
+    Z.BBS_TTL,  
+    Z.BBS_CN,  
+    Z.FIX_YN,  
+    Z.INQ_CNT,  
+    DATE_FORMAT(Z.FRST_REG_DT, '%Y-%m-%d') as FRST_REG_DT,  
+    Z.FRST_RGTR_ID,  
+    Z.LAST_MDFCN_DT  
+    Z.LAST_MDFR_ID  
+FROM (  
+    SELECT  
+        CAST(@ROWNUM := @ROWNUM + 1 AS UNSIGNED) AS ROWNUM  
+        , NOTICE.*  
+    FROM (  
+        SELECT  
+            BBS_ID,  
+            BBS_TTL,  
+            BBS_CN,  
+            FIX_YN,  
+            INQ_CNT,  
+            FRST_REG_DT,  
+            FRST_RGTR_ID,  
+            LAST_MDFCN_DT,  
+            LAST_MDFR_ID  
+        FROM  
+            NOTICE  
+            where (BBS_TTL LIKE CONCAT('%', #{KEYWORD}, '%') OR  
+            BBS_CN LIKE CONCAT('%', #{KEYWORD}, '%'))  
+    ) NOTICE,(SELECT @ROWNUM := 0)B  
+)Z  
+WHERE Z.ROWNUM &lt; 11</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="viewCount_SEL2">SELECT 
+    INQ_CNT 
+FROM NOTICE 
+WHERE BBS_ID = #{BBS_ID}</select>
+  <update parameterType="java.util.HashMap" id="viewCount_UPD6">Update NOTICE  set  INQ_CNT=#{INQ_CNT}  where BBS_ID=#{BBS_ID}</update>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="loadList_SEL6">SELECT           
+    BBS_ID,           
+    BBS_TTL,           
+    BBS_CN,           
+    FIX_YN,           
+    INQ_CNT,         
+    ATCH_FILE_ID,           
+    FRST_REG_DT,           
+    FRST_RGTR_ID,           
+    LAST_MDFCN_DT,           
+    LAST_MDFR_ID           
+FROM           
+    NOTICE</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="loadList_SEL2">select count(*) as CNT  
+from   
+(   
+    SELECT       
+        Z.ROWNUM,       
+        Z.BBS_ID,       
+        Z.BBS_TTL,       
+        Z.BBS_CN,       
+        Z.FIX_YN,       
+        Z.INQ_CNT,       
+        Z.ATCH_FILE_ID,     
+        DATE_FORMAT(Z.FRST_REG_DT, '%Y-%m-%d') as FRST_REG_DT,       
+        Z.FRST_RGTR_ID,       
+        Z.LAST_MDFCN_DT,      
+        Z.LAST_MDFR_ID       
+    FROM (       
+        SELECT       
+            CAST(@ROWNUM := @ROWNUM + 1 AS UNSIGNED) AS ROWNUM       
+            , NOTICE.*       
+        FROM (       
+            SELECT       
+                BBS_ID,       
+                BBS_TTL,       
+                BBS_CN,       
+                FIX_YN,       
+                INQ_CNT,     
+                ATCH_FILE_ID,       
+                FRST_REG_DT,       
+                FRST_RGTR_ID,       
+                LAST_MDFCN_DT,       
+                LAST_MDFR_ID       
+            FROM       
+                NOTICE       
+            WHERE (BBS_TTL LIKE CONCAT('%', #{KEYWORD}, '%') OR       
+                BBS_CN LIKE CONCAT('%', #{KEYWORD}, '%'))       
+        ) NOTICE,(SELECT @ROWNUM := 0)B       
+    )Z       
+)a</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="loadList_SEL4">
+    SELECT         
+    Z.ROWNUM,         
+    Z.BBS_ID,         
+    Z.BBS_TTL,         
+    Z.BBS_CN,         
+    Z.FIX_YN,         
+    Z.INQ_CNT,         
+    Z.ATCH_FILE_ID,       
+    DATE_FORMAT(Z.FRST_REG_DT, '%Y-%m-%d') as FRST_REG_DT,         
+    Z.FRST_RGTR_ID,         
+    Z.LAST_MDFCN_DT,        
+    Z.LAST_MDFR_ID         
+FROM (         
+    SELECT         
+        CAST(@ROWNUM := @ROWNUM + 1 AS UNSIGNED) AS ROWNUM         
+        , NOTICE.*         
+    FROM (         
+        SELECT         
+            BBS_ID,         
+            BBS_TTL,         
+            BBS_CN,         
+            FIX_YN,         
+            INQ_CNT,       
+            ATCH_FILE_ID,         
+            FRST_REG_DT,         
+            FRST_RGTR_ID,         
+            LAST_MDFCN_DT,         
+            LAST_MDFR_ID         
+        FROM         
+            NOTICE         
+        WHERE (BBS_TTL LIKE CONCAT('%', #{KEYWORD}, '%') OR         
+            BBS_CN LIKE CONCAT('%', #{KEYWORD}, '%'))      
+        ORDER BY CASE WHEN FIX_YN = 'Y' THEN 1 ELSE 2 END, FRST_REG_DT DESC  
+    ) NOTICE,(SELECT @ROWNUM := 0)B         
+)Z         
+where 1=1
+    <choose>
+      <when test="S_PAGECNT == &quot;&quot;">AND Z.ROWNUM &lt;= 10</when>
+    </choose>
+    <choose>
+      <when test="S_PAGECNT != &quot;&quot;">AND Z.ROWNUM &lt;= #{PAGECNT}*10    
+    AND Z.ROWNUM &gt; (#{PAGECNT}-1)*10</when>
+    </choose>
+  </select>
+</mapper>
+
+

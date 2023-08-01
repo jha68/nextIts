@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<mapper namespace="CE00101S_20230628181830">
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="faqLoad_SEL1">SELECT        
+    BBS_ID,        
+    QSTN_CN,        
+    ASN_CN,     
+    ATCH_FILE_ID  
+FROM        
+    FAQ</select>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="faqLoad_SEL7">SELECT                
+    FILE_ID,                
+    FILE_SN,                
+    FILE_NM,                
+    FILE_PATH_NM,        
+    CONCAT(FILE_SZ / 1024, ' KB') AS FILE_SZ,                
+    REG_SE_CD,                
+    REG_SE_NM,                
+    RGTR_SE_CD,                
+    RGTR_SE_NM,                
+    FILE_TTL,                
+    FILE_EXPN,                
+    DATE_FORMAT(A.FRST_REG_DT, '%Y-%m-%d') as FRST_REG_DT,              
+    A.FRST_RGTR_ID,                
+    A.LAST_MDFCN_DT,                
+    A.LAST_MDFR_ID                
+FROM                
+    FILE A LEFT JOIN FAQ B               
+ON    A.FILE_ID = B.ATCH_FILE_ID            
+where A.FILE_ID = #{ATCH_FILE_ID}</select>
+</mapper>

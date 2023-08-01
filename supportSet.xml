@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<mapper namespace="ME00101S_20230628231875">
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="loadpage_SEL2">/*temp datasets*/     
+select '웹사이트 이용문의' as title         
+        , 'TEL111' as tel         
+        , 'EMAIL111' as email         
+        , 'FAX111' as fax         
+from dual         
+union all         
+select '입찰문의' as title         
+        , 'TEL222' as tel         
+        , 'EMAIL22222222222222222222222222222' as email         
+        , 'FAX222' as fax         
+from dual         
+union all         
+select '보험 계약 문의' as title         
+        , 'TEL333' as tel         
+        , 'EMAIL333' as email         
+        , 'FAX333' as fax         
+from dual      
+      
+/*      
+SELECT      
+    TASK_ID,      
+    TASK_NM as TITLE,      
+    TASK_TELNO as TEL,      
+    TASK_EML_ADDR as EMAIL,      
+    TASK_FXNO as FAX      
+FROM      
+    TASK_CHARGE     
+*/</select>
+  <delete parameterType="java.util.HashMap" id="supportDelete_DEL2">Delete from TASK_CHARGE  where TASK_ID=#{TASK_ID}</delete>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="supportUpload_SEL4">select       
+    getUniId() AS TASK_ID 
+FROM DUAL</select>
+  <insert parameterType="java.util.HashMap" id="supportUpload_INS2">Insert into TASK_CHARGE (TASK_FXNO, TASK_NM, TASK_EML_ADDR, TASK_TELNO, TASK_ID)  values(#{TASK_FXNO} , #{TASK_NM} , #{TASK_EML_ADDR} , #{TASK_TELNO} , #{TASK_ID} )</insert>
+  <select parameterType="java.util.HashMap" resultType="java.util.HashMap" id="supportLoad_SEL2">SELECT                       
+    TASK_ID as TASK_ID,                      
+    TASK_NM as TITLE,    
+    formatPhoneNumber(TASK_TELNO) as TEL,                       
+    TASK_EML_ADDR as EMAIL,                       
+    TASK_FXNO as FAX                  
+FROM                       
+    TASK_CHARGE</select>
+  <update parameterType="java.util.HashMap" id="supportUpdate_UPD2">Update TASK_CHARGE  set  TASK_FXNO=#{TASK_FXNO}  , TASK_NM=#{TASK_NM}  , TASK_EML_ADDR=#{TASK_EML_ADDR}  , TASK_TELNO=#{TASK_TELNO}  where TASK_ID=#{TASK_ID}</update>
+</mapper>
+
+
